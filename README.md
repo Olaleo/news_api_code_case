@@ -1,1 +1,1 @@
-# news_api_codecase
+# news_api_code_case
