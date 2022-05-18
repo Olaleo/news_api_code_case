@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.news_api_code_case.destinations.NavGraphs
 import com.example.news_api_code_case.ui.theme.News_api_code_caseTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -22,8 +23,10 @@ class MainActivity : ComponentActivity() {
             News_api_code_caseTheme {
                 // A surface container using the 'background' color from the theme
 
-                Scaffold {
-                    DestinationsNavHost(modifier = Modifier.padding(it), navGraph = NavGraphs.root)
+                val navController = rememberNavController( )
+
+                Scaffold() {
+                    DestinationsNavHost(modifier = Modifier.padding(it), navGraph = NavGraphs.root, navController = navController)
                 }
             }
         }
