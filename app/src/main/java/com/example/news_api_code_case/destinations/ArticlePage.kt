@@ -1,6 +1,7 @@
 package com.example.news_api_code_case.destinations
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
@@ -11,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -20,6 +22,7 @@ import com.example.news_api_code_case.model.Article
 import com.example.news_api_code_case.util.observeWithLifecycle
 import com.example.news_api_code_case.viewModels.ArticleViewModel
 import com.ramcosta.composedestinations.annotation.Destination
+import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -41,6 +44,15 @@ fun ArticlePage() {
             item {
                 GlideImage(
                     imageModel = article.urlToImage,
+                    failure = {
+                        Image(
+                            painter = ColorPainter(MaterialTheme.colors.primary),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth(1f)
+                                .aspectRatio(2f)
+                        )
+                    },
                     shimmerParams = ShimmerParams(
                         baseColor = MaterialTheme.colors.background,
                         highlightColor = MaterialTheme.colors.secondary,
@@ -48,7 +60,9 @@ fun ArticlePage() {
                         dropOff = 0.65f,
                         tilt = 20f
                     ),
-                    modifier = Modifier.shadow(elevation = 5.dp),
+                    circularReveal = CircularReveal(duration = 350),
+                    modifier = Modifier
+                        .shadow(elevation = 5.dp),
                     contentScale = ContentScale.FillWidth
                 )
             }

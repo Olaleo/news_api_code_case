@@ -2,4 +2,6 @@
     <string name="app_name">news_api_code_case</string>
     <string name="page_news_list_title">News list</string>
     <string name="page_articles_title">Article</string>
+    <string name="label_search">Search</string>
+    <string name="label_empty_search_term">Please enter a search term</string>
 </resources>

@@ -8,8 +8,8 @@ import javax.inject.Inject
 //@Singleton
 class NewsRepository @Inject constructor(private val retrofitInterface: RetrofitInterface) {
 
-    suspend fun getNewsList(): List<Article> {
-      when (val res = retrofitInterface.everyThing()){
+    suspend fun getNewsList(searchTerm: String): List<Article> {
+      when (val res = retrofitInterface.everyThing(searchTerm)){
           is NetworkResponse.Success -> return res.body.articles
           is NetworkResponse.ServerError -> TODO()
           is NetworkResponse.NetworkError -> TODO()
