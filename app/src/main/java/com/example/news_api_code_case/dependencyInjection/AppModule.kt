@@ -34,13 +34,13 @@ class AppModule {
         val client = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .addInterceptor(Interceptor {
-                val original = it.request();
+                val original = it.request()
 
                 val request = original.newBuilder()
 //                    .header("User-Agent", "Your-App-Name")
                     .header("Authorization", BuildConfig.API_KEY)
                     .method(original.method, original.body)
-                    .build();
+                    .build()
 
                 it.proceed(request)
             })
