@@ -1,20 +1,30 @@
 package com.example.news_api_code_case.repositories
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.example.news_api_code_case.model.Article
 import com.example.news_api_code_case.network.RetrofitInterface
-import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
 
 //@Singleton
 class NewsRepository @Inject constructor(private val retrofitInterface: RetrofitInterface) {
 
-    suspend fun getNewsList(searchTerm: String): List<Article> {
-      when (val res = retrofitInterface.everyThing(searchTerm)){
-          is NetworkResponse.Success -> return res.body.articles
-          is NetworkResponse.ServerError -> TODO()
-          is NetworkResponse.NetworkError -> TODO()
-          is NetworkResponse.UnknownError -> TODO()
-      }
+    fun getNewsPagingSource(
+        searchTerm: String,
+        onTotalResultsReceived: (Int) -> Unit
+    ): Pager<Int, Article> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = true,
+                initialLoadSize = 20
+            )
+        ) {
+            ArticlePagingSource(
+                retrofitInterface,
+                searchQuery = searchTerm,
+                onTotalResultsReceived = onTotalResultsReceived
+            )
+        }
     }
-
 }

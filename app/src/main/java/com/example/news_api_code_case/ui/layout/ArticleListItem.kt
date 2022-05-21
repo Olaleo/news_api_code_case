@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -20,13 +21,13 @@ import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun ArticleListItem(article: Article, onClick: (Article) -> Unit) {
+fun ArticleListItem(article: Article?, onClick: (Article) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 5.dp)
-            .clickable {
-                onClick(article)
+            .clickable(enabled = article != null) {
+                onClick(article!!)
             },
         elevation = 4.dp
     ) {
@@ -35,7 +36,7 @@ fun ArticleListItem(article: Article, onClick: (Article) -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             GlideImage(
-                imageModel = article.urlToImage,
+                imageModel = article?.urlToImage,
                 failure = {
                     Image(
                         painter = ColorPainter(MaterialTheme.colors.primary),
@@ -48,32 +49,37 @@ fun ArticleListItem(article: Article, onClick: (Article) -> Unit) {
                     durationMillis = 500,
                     dropOff = 0.65f,
                     tilt = 20f
-                ), circularReveal = CircularReveal(duration = 350),
-                modifier = Modifier.sizeIn(maxHeight = 100.dp, maxWidth = 100.dp, minWidth = 100.dp)
+                ),
+                circularReveal = CircularReveal(duration = 350),
+                modifier = Modifier.size(100.dp, 100.dp),
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.Center
             )
-            Column(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = article.title,
-                    modifier = Modifier,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Row(
+            article?.let {
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    horizontalArrangement = Arrangement.End
+                        .padding(10.dp)
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = DateFormat.getDateFormat(LocalContext.current)
-                            .format(article.publishedAt),
+                        text = article.title,
                         modifier = Modifier,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            text = DateFormat.getDateFormat(LocalContext.current)
+                                .format(article.publishedAt),
+                            modifier = Modifier,
+                        )
+                    }
                 }
             }
         }

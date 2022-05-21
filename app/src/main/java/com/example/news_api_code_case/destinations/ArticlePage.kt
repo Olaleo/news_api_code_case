@@ -15,9 +15,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.news_api_code_case.R
 import com.example.news_api_code_case.model.Article
 import com.example.news_api_code_case.util.observeWithLifecycle
 import com.example.news_api_code_case.viewModels.ArticleViewModel
@@ -40,7 +42,10 @@ fun ArticlePage() {
     val article by vm.article
     Column(modifier = Modifier.fillMaxSize()) {
 
-        LazyColumn(modifier = Modifier, contentPadding = PaddingValues(all = 30.dp)) {
+        LazyColumn(
+            modifier = Modifier,
+            contentPadding = PaddingValues(all = 30.dp),
+        ) {
             item {
                 GlideImage(
                     imageModel = article.urlToImage,
@@ -62,7 +67,8 @@ fun ArticlePage() {
                     ),
                     circularReveal = CircularReveal(duration = 350),
                     modifier = Modifier
-                        .shadow(elevation = 5.dp),
+                        .shadow(elevation = 5.dp)
+                        .defaultMinSize(100.dp, 100.dp),
                     contentScale = ContentScale.FillWidth
                 )
             }
@@ -77,15 +83,16 @@ fun ArticlePage() {
             item {
 
                 Column(modifier = Modifier) {
-                    Text(
-                        text = article.author,
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.subtitle1,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 10.dp)
-                    )
-
+                    article.author?.let {
+                        Text(
+                            text = it,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.subtitle1,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 10.dp)
+                        )
+                    }
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -95,7 +102,7 @@ fun ArticlePage() {
                             onClick = { vm.goToArticleOnClick() },
                             modifier = Modifier.align(Alignment.Center)
                         ) {
-                            Text(text = "Go to Article")
+                            Text(text = stringResource(R.string.button_go_to_article))
                         }
                     }
 
@@ -105,7 +112,10 @@ fun ArticlePage() {
                         modifier = Modifier.padding(top = 10.dp)
                     )
                     Text(
-                        text = "Source: ${article.source.name}",
+                        text = stringResource(
+                            id = R.string.label_source,
+                            formatArgs = arrayOf(article.source.name)
+                        ),
                         style = MaterialTheme.typography.body1,
                         modifier = Modifier.padding(top = 10.dp)
                     )

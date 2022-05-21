@@ -4,4 +4,7 @@
     <string name="page_articles_title">Article</string>
     <string name="label_search">Search</string>
     <string name="label_empty_search_term">Please enter a search term</string>
+    <string name="label_search_no_results">Your search query yielded no results</string>
+    <string name="button_go_to_article">Go to Article</string>
+    <string name="label_source">Source: %s</string>
 </resources>
