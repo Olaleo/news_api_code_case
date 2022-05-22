@@ -10,7 +10,7 @@ interface RetrofitInterface {
 
     @GET("everything")
     suspend fun everyThing(
-        @Query("q") searchTerm: String,
+        @Query("q") searchQuery: String,
         @Query("page") page: Int, @Query("pageSize") pageSize: Int
     ): NetworkResponse<EveryThingResponse, ErrorModel>
 }

@@ -10,7 +10,7 @@ import javax.inject.Inject
 class NewsRepository @Inject constructor(private val retrofitInterface: RetrofitInterface) {
 
     fun getNewsPagingSource(
-        searchTerm: String,
+        searchQuery: String,
         onTotalResultsReceived: (Int) -> Unit
     ): Pager<Int, Article> {
         return Pager(
@@ -22,7 +22,7 @@ class NewsRepository @Inject constructor(private val retrofitInterface: Retrofit
         ) {
             ArticlePagingSource(
                 retrofitInterface,
-                searchQuery = searchTerm,
+                searchQuery = searchQuery,
                 onTotalResultsReceived = onTotalResultsReceived
             )
         }

@@ -38,13 +38,13 @@ fun NewsListPage(navigator: DestinationsNavigator) {
         )
     })
 
-    val searchTerm by vm.searchTerm.collectAsState()
+    val searchQuery by vm.searchQuery.collectAsState()
     val articles = vm.newsList.collectAsLazyPagingItems()
     val totalResult by vm.totalResults.collectAsState()
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         OutlinedTextField(
-            value = searchTerm,
-            onValueChange = vm::onSearchTermsChanged,
+            value = searchQuery,
+            onValueChange = vm::onSearchQueryChanged,
             singleLine = true,
             label = { Text(text = stringResource(R.string.label_search)) },
             modifier = Modifier
@@ -59,9 +59,9 @@ fun NewsListPage(navigator: DestinationsNavigator) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
 
-            searchTerm == "" -> Box(modifier = Modifier.weight(1f)) {
+            searchQuery == "" -> Box(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = stringResource(R.string.label_empty_search_term),
+                    text = stringResource(R.string.label_empty_search_query),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }

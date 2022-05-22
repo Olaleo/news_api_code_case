@@ -30,7 +30,7 @@ class ArticlePagingSource(
 
         return when (val res =
             retrofitInterface.everyThing(
-                searchTerm = searchQuery,
+                searchQuery = searchQuery,
                 page = params.key ?: 1,
                 pageSize = params.loadSize
             )) {

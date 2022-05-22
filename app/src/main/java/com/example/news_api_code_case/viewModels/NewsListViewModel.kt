@@ -22,14 +22,14 @@ class NewsListViewModel @Inject constructor(
     private val _navigationEvent = MutableSharedFlow<Direction>()
     val navigationEvent = _navigationEvent.asSharedFlow()
 
-    private val _searchTerm = MutableStateFlow("")
-    val searchTerm = _searchTerm.asStateFlow()
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
 
     private val _totalResults = MutableStateFlow(0)
     val totalResults = _totalResults.asStateFlow()
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    val newsList = searchTerm.debounce(500).map {
+    val newsList = searchQuery.debounce(500).map {
         newsRepository.getNewsPagingSource(it) { viewModelScope.launch { _totalResults.emit(it) } }.flow
     }.flatMapLatest { it }
 
@@ -39,9 +39,9 @@ class NewsListViewModel @Inject constructor(
         }
     }
 
-    fun onSearchTermsChanged(searchTerm: String) {
+    fun onSearchQueryChanged(searchQuery: String) {
         viewModelScope.launch {
-            _searchTerm.emit(searchTerm)
+            _searchQuery.emit(searchQuery)
         }
     }
 
